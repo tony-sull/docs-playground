@@ -1,0 +1,101 @@
+:where(:root) {
+  /* Color variables */
+  --color-primary: #325476;
+  --color-secondary: #0b70ba;
+  --color-neutral-50: #f9fafb;
+  --color-neutral-100: #f3f4f6;
+  --color-neutral-200: #e5e7eb;
+  --color-neutral-300: #d1d5db;
+  --color-neutral-400: #9ca3af;
+  --color-neutral-500: #6b7280;
+  --color-neutral-600: #4b5563;
+  --color-neutral-700: #374151;
+  --color-neutral-800: #1f2937;
+  --color-neutral-900: #111827;
+}
+
+/* dark theme via HTML dataset */
+:root[data-theme="dark"] {
+  --color-primary: #002244;
+  --color-secondary: #3ea8f4;
+  --color-neutral-50: #111827;
+  --color-neutral-100: #1f2937;
+  --color-neutral-200: #374151;
+  --color-neutral-300: #4b5563;
+  --color-neutral-400: #6b7280;
+  --color-neutral-500: #9ca3af;
+  --color-neutral-600: #d1d5db;
+  --color-neutral-700: #e5e7eb;
+  --color-neutral-800: #f3f4f6;
+  --color-neutral-900: #f9fafb;
+}
+
+/* dark theme via native prefers-color-scheme */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-primary: #002244;
+    --color-secondary: #3ea8f4;
+    --color-neutral-50: #111827;
+    --color-neutral-100: #1f2937;
+    --color-neutral-200: #374151;
+    --color-neutral-300: #4b5563;
+    --color-neutral-400: #6b7280;
+    --color-neutral-500: #9ca3af;
+    --color-neutral-600: #d1d5db;
+    --color-neutral-700: #e5e7eb;
+    --color-neutral-800: #f3f4f6;
+    --color-neutral-900: #f9fafb;
+  }
+}
+
+/* Accessibility
+ * ========================================================================== */
+
+/**
+  * Handle hiding and showing elements that are meant only for screen readers.
+  *
+  * 1. modern browsers, clip-path works inwards from each corner
+  * 2. added line to stop words getting smushed together (as they go onto seperate lines and some screen readers do not understand line feeds as a space)
+  */
+:where(.sr-only) {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip-path: inset(50%); /* 1 */
+  white-space: nowrap; /* 2 */
+}
+
+/**
+  * Visually show the element when focused.
+  */
+:where(.sr-only.sr-only-focusable:focus) {
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  clip-path: initial;
+  white-space: normal;
+}
+
+/**
+ * Full-bleed layout grids
+ */
+:where(.grid-layout) {
+  display: grid;
+  grid-template-columns:
+      1fr
+      min(var(--measure), 100%)
+      1fr;
+}
+:where(.grid-layout > *) {
+  grid-column: 2;
+}
+:where(.grid-layout > .full-bleed) {
+  width: 100%;
+  grid-column: 1 / -1;
+}

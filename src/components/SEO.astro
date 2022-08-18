@@ -1,0 +1,64 @@
+---
+export interface Props {
+    name: string
+    title: string
+    description: string
+    image: {
+        src: string
+        alt: string
+    }
+    locale?: string
+    twitterHandle?: string
+    canonicalURL?: URL | string
+    formatTitle?: (title: string, name: string) => string
+}
+
+function defaultFormatter(title: string, name: string) {
+    return [title, name].filter(Boolean).join(' | ')
+}
+
+const {
+    name,
+    title,
+    description,
+    image,
+    locale = 'en',
+    twitterHandle,
+    canonicalURL = new URL(Astro.url.pathname, Astro.site),
+    formatTitle = defaultFormatter
+} = Astro.props as Props
+
+const fullTitle = formatTitle(title, name)
+---
+
+<!-- Page Metadata -->
+<meta name="generator" content={Astro.generator} />
+<link rel="canonical" href={canonicalURL} />
+<title>{fullTitle}</title>
+
+<!-- OpenGraph Tags -->
+<meta property="og:title" content={fullTitle} />
+<meta property="og:type" content="article" />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:locale" content={locale} />
+<meta property="og:image" content={image.src} />
+<meta property="og:image:alt" content={image.alt} />
+<meta
+	name="description"
+	property="og:description"
+	content={description}
+/>
+<meta property="og:site_name" content={name} />
+
+<!-- Twitter Tags -->
+<meta name="twitter:card" content="summary_large_image" />
+{twitterHandle && (
+    <meta name="twitter:site" content={twitterHandle} />
+)}
+<meta name="twitter:title" content={fullTitle} />
+<meta
+	name="twitter:description"
+	content={description}
+/>
+<meta name="twitter:image" content={image.src} />
+<meta name="twitter:image:alt" content={image.alt} />

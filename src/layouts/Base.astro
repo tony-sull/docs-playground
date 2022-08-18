@@ -1,0 +1,40 @@
+---
+import "../assets/styles/reset.css";
+import "../assets/styles/core.css";
+import "../assets/styles/theme.css";
+import Header from "../components/Header.astro";
+import SEO from "../components/SEO.astro";
+import type { Props as SEOProps } from "../components/SEO.astro";
+import site from "../data/site.js";
+
+export interface Props {
+    seo?: Partial<SEOProps>
+}
+
+const { seo = { } } = Astro.props as Props
+
+const seoProps = { ...site, name: site.title, ...seo }
+---
+
+<html>
+	<head>
+        <!-- Global Metadata -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width" />
+        <SEO {...seoProps} />
+    </head>
+
+    <body>
+        <Header />
+        <main class="grid-layout">
+            <slot />
+        </main>
+    </body>
+</html>
+
+<style>
+    html, body {
+        background-color: var(--color-neutral-50);
+        color: var(--color-neutral-900);
+    }
+</style>
