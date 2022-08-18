@@ -33,8 +33,25 @@ const seoProps = { ...site, name: site.title, ...seo }
 </html>
 
 <style>
+    html {
+        height: 100%;
+    }
+
+    body {
+        min-height: 100%;
+    }
+
     html, body {
         background-color: var(--color-neutral-50);
         color: var(--color-neutral-900);
+    }
+
+    body {
+        display: flex;
+        flex-direction: column;
+    }
+
+    main {
+        flex: 1;
     }
 </style>
