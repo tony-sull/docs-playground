@@ -11,16 +11,28 @@ import { Icon } from "astro-icon";
         connectedCallback() {
             this.#labels = Array.from(this.querySelectorAll('label[data-theme]'));
 
-            const theme = localStorage.getItem('theme') as Theme | null;
-            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            this.initTheme();
+            this.addEventListener('change', this.onChange.bind(this));
+
+            this.onChange();
+        }
+
+        initTheme() {
+            let cache = localStorage.getItem('theme') as Theme | null;
+            if (cache === 'dark' || (!cache && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 this.setTheme('dark');
             } else {
                 this.setTheme('light');
             }
 
-            this.addEventListener('change', this.onChange.bind(this));
+            const theme = this.theme;
 
-            this.onChange();
+            for (const label of this.#labels) {
+                if (label.dataset.theme === theme) {
+                    const input = label.querySelector<HTMLInputElement>('input');
+                    input!.checked = true;
+                }
+            }
         }
 
         get theme() {

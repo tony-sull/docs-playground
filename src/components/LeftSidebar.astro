@@ -1,6 +1,7 @@
 ---
+import NavList from "./NavList.astro";
+import type { NavLink } from "./NavList.astro";
 import sidebar, { isHeader } from "../data/sidebar.js";
-import type { SidebarLink } from "../data/sidebar.js";
 
 export interface Props {
     lang?: string;
@@ -19,26 +20,20 @@ const sidebarSections = sidebar[lang].reduce((col, item, i) => {
 	if (isHeader(item)) {
 		col.push({ ...item, children: [] });
 	} else {
-		col[col.length - 1].children.push(item);
+		col[col.length - 1].children.push({
+            ...item,
+            current: item.link === Astro.url.pathname,
+        });
 	}
 	return col;
-}, [] as { text: string, children: SidebarLink[] }[]);
+}, [] as { text: string, children: NavLink[] }[]);
 ---
 
 <nav>
     <ul>
         {sidebarSections.map(({ text, children }) => (
             <li>
-                <div>
-                    <h2>{text}</h2>
-                    <ol>
-                        {children.map(({ link, text }) => (
-                            <li>
-                                <a href={link} aria-current={link === Astro.url.pathname ? 'page' : undefined}>{text}</a>
-                            </li>
-                        ))}
-                    </ol> 
-                </div>
+                <NavList title={text} links={children} />
             </li>
         ))}
     </ul>
@@ -49,7 +44,7 @@ const sidebarSections = sidebar[lang].reduce((col, item, i) => {
         position: relative;
     }
 
-    ul, ol {
+    ul {
         display: flex;
         flex-direction: column;
         padding: 0;
@@ -57,30 +52,7 @@ const sidebarSections = sidebar[lang].reduce((col, item, i) => {
         list-style: none;
     }
 
-    h2 {
-        font-size: var(--text-sm);
-        font-weight: 700;
-        text-transform: uppercase;
-        color: var(--color-neutral-500);
-        padding-block-end: var(--gap-2xs);
-    }
-
     ul {
         gap: var(--gap-xl);
-    }
-
-    ol {
-        gap: var(--gap-xs);
-        padding-inline-start: var(--gap-base);
-    }
-
-    a {
-        text-decoration: none;
-        color: inherit;
-    }
-
-    [aria-current=page] {
-        font-weight: 700;
-        color: var(--color-primary);
     }
 </style>

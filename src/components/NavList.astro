@@ -1,0 +1,54 @@
+---
+export interface NavLink {
+    text: string;
+    link: string;
+    current: boolean;
+}
+
+export interface Props {
+    title: string;
+    links: NavLink[];
+}
+
+const { title, links } = Astro.props as Props;
+---
+
+<section>
+    <h2>{title}</h2>
+    <ol>
+        {links.map(({ link, text }) => (
+            <li>
+                <a href={link} aria-current={link === Astro.url.pathname ? 'page' : undefined}>{text}</a>
+            </li>
+        ))}
+    </ol> 
+</section>
+
+<style>
+    h2 {
+        font-size: var(--text-sm);
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--color-neutral-500);
+        margin-block-end: var(--gap-2xs);
+    }
+    
+    ol {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        list-style: none;
+        gap: var(--gap-xs);
+        padding-inline-start: var(--gap-base);
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    [aria-current=page] {
+        font-weight: 700;
+        color: var(--color-primary);
+    }
+</style>
