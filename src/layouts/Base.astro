@@ -10,11 +10,18 @@ import site from "../data/site.js";
 export interface Props extends Partial<SEOProps> { }
 
 const { ...seo } = Astro.props as Props
+
+const title = [seo.title, site.title].filter(Boolean).join(' | ');
+
 const seoProps = {
-    ...site,
+    ...site, // default to the config file
     name: site.title,
-    ...seo
-}
+    title,
+    twitter: {
+        handle: site.twitterHandle,
+    },
+    ...seo // prioritize page-specific SEO props
+};
 ---
 
 <html>

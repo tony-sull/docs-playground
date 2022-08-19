@@ -9,12 +9,8 @@ export interface SEOMetadata {
     title: string;
     description: string;
     image: Image;
-    canonicalURL: URL | string;
+    canonicalURL?: URL | string;
     locale?: string;
-}
-
-export interface SEOSite extends SEOMetadata {
-    formatTitle?: (title: string, name: string) => string;
 }
 
 export interface OpenGraph extends Partial<SEOMetadata> {
@@ -26,13 +22,9 @@ export interface Twitter extends Partial<SEOMetadata> {
     card?: 'summary_large_image';
 }
 
-export interface Props extends SEOSite {
+export interface Props extends SEOMetadata {
     og?: OpenGraph;
     twitter?: Twitter;
-}
-
-function defaultFormatter(title: string, name: string) {
-    return [title, name].filter(Boolean).join(' | ')
 }
 
 const {
@@ -42,16 +34,13 @@ const {
     image,
     locale = 'en',
     canonicalURL = new URL(Astro.url.pathname, Astro.site),
-    formatTitle = defaultFormatter,
     og: _og = { },
     twitter: _twitter = { }
 } = Astro.props as Props;
 
-const fullTitle = formatTitle(title, name);
-
 const og: OpenGraph = {
     name,
-    title: fullTitle,
+    title,
     description,
     canonicalURL,
     image,
@@ -62,7 +51,7 @@ const og: OpenGraph = {
 
 const twitter: Twitter = {
     name,
-    title: fullTitle,
+    title,
     description,
     canonicalURL,
     image,
@@ -75,7 +64,7 @@ const twitter: Twitter = {
 <!-- Page Metadata -->
 <meta name="generator" content={Astro.generator} />
 <link rel="canonical" href={canonicalURL} />
-<title>{fullTitle}</title>
+<title>{title}</title>
 
 <!-- OpenGraph Tags -->
 <meta property="og:title" content={og.title} />
