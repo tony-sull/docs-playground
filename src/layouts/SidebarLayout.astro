@@ -1,22 +1,31 @@
 ---
+import type { MarkdownInstance, MarkdownHeading } from "astro";
 import Layout from "./Base.astro";
 import type { Props as LayoutProps } from "./Base.astro";
 import LeftSidebar from "../components/LeftSidebar.astro";
+import RightSidebar from "../components/RightSidebar.astro";
 
-export interface Props extends LayoutProps { }
+export interface Props extends MarkdownInstance<LayoutProps> {
+    headings: MarkdownHeading[]
+}
 
-const { ...layout } = Astro.props as Props
+const { frontmatter, headings } = Astro.props as Props
+console.log(headings)
 ---
 
-<Layout {...layout}>
+<Layout {...frontmatter}>
     <div>
-        <aside><LeftSidebar /></aside>
+        <aside>
+            <LeftSidebar />
+        </aside>
 
         <article>
             <slot />
         </article>
 
-        <aside></aside>
+        <aside>
+            <RightSidebar headings={headings} />
+        </aside>
     </div>
 </Layout>
 

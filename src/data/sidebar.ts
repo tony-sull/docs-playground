@@ -16,7 +16,6 @@ export function isHeader(item: SidebarItem): item is SidebarHeader {
 
 const sidebar: { [lang: string]: SidebarItem[] } = {
 	en: [
-		{ text: '', header: true },
 		{ text: 'Section Header', header: true },
 		{ text: 'Introduction', link: '/en/introduction' },
 		{ text: 'Page 2', link: '/en/page-2' },

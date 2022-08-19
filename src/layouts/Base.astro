@@ -7,13 +7,14 @@ import SEO from "../components/SEO.astro";
 import type { Props as SEOProps } from "../components/SEO.astro";
 import site from "../data/site.js";
 
-export interface Props {
-    seo?: Partial<SEOProps>
+export interface Props extends Partial<SEOProps> { }
+
+const { ...seo } = Astro.props as Props
+const seoProps = {
+    ...site,
+    name: site.title,
+    ...seo
 }
-
-const { seo = { } } = Astro.props as Props
-
-const seoProps = { ...site, name: site.title, ...seo }
 ---
 
 <html>
