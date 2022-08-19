@@ -1,5 +1,8 @@
 ---
 import { Icon } from "astro-icon";
+import Button from "./Button.astro";
+import Drawer from "./Drawer.astro";
+import LeftSidebar from "./LeftSidebar.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 ---
 
@@ -9,9 +12,28 @@ import ThemeToggle from "./ThemeToggle.astro";
             <Icon name="logo" size={40} />
             <span>strobook</span>
         </a>
-        <ThemeToggle />
+        <div>
+            <ThemeToggle />
+            <Button theme="hollow" id="menutoggle">
+                <span>M</span>
+            </Button>
+        </div>
     </div>
 </header>
+
+<Drawer>
+    <LeftSidebar />
+    <ThemeToggle />
+</Drawer>
+
+<script>
+    const button = document.getElementById('menutoggle');
+    const drawer = document.querySelector('header + app-drawer');
+
+    button!.onclick = () => {
+        drawer!.toggleAttribute('open');
+    }
+</script>
 
 <style>
     header {
@@ -21,7 +43,7 @@ import ThemeToggle from "./ThemeToggle.astro";
         border-bottom: 1px solid var(--color-neutral-200);
     }
 
-    div {
+    header > div {
         padding: var(--gap-sm) 0;
         display: flex;
         align-items: center;
@@ -39,5 +61,11 @@ import ThemeToggle from "./ThemeToggle.astro";
     a :global(svg) {
         margin-left: -6px;
         margin-right: -10px;
+    }
+
+    button {
+        background: transparent;
+        border: transparent;
+        color: inherit;
     }
 </style>

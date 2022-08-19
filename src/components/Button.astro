@@ -1,0 +1,26 @@
+---
+export type Theme = 'primary' | 'hollow';
+
+export interface Props extends astroHTML.JSX.HTMLAttributes {
+    theme?: Theme;
+}
+
+const { theme = 'primary', ...attrs } = Astro.props as Props;
+---
+
+<button class:list={[theme]} {...attrs}>
+    <slot />
+</button>
+
+<style>
+    .hollow {
+        background-color: transparent;
+        border-color: transparent;
+        color: var(--color-neutral-900);
+    }
+
+    .hollow:hover {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+    }
+</style>
