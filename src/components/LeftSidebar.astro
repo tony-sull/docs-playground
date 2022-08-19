@@ -34,7 +34,7 @@ const sidebarSections = sidebar[lang].reduce((col, item, i) => {
                     <ol>
                         {children.map(({ link, text }) => (
                             <li>
-                                <a href={link}>{text}</a>
+                                <a href={link} aria-current={link === Astro.url.pathname ? 'page' : undefined}>{text}</a>
                             </li>
                         ))}
                     </ol> 
@@ -53,19 +53,34 @@ const sidebarSections = sidebar[lang].reduce((col, item, i) => {
         display: flex;
         flex-direction: column;
         padding: 0;
+        margin: 0;
         list-style: none;
     }
 
     h2 {
-        font-size: var(--text-lg);
+        font-size: var(--text-sm);
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--color-neutral-500);
         padding-block-end: var(--gap-2xs);
     }
 
     ul {
-        gap: var(--gap-lg);
+        gap: var(--gap-xl);
     }
 
     ol {
         gap: var(--gap-xs);
+        padding-inline-start: var(--gap-base);
+    }
+
+    a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    [aria-current=page] {
+        font-weight: 700;
+        color: var(--color-primary);
     }
 </style>

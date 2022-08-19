@@ -10,7 +10,6 @@ export interface Props extends MarkdownInstance<LayoutProps> {
 }
 
 const { frontmatter, headings } = Astro.props as Props
-console.log(headings)
 ---
 
 <Layout {...frontmatter}>
@@ -31,23 +30,22 @@ console.log(headings)
 
 <style>
     aside:first-of-type {
-        position: relative;
-        padding-inline-end: var(--gap-xl);
+        padding-inline-end: 2.5vw;
+        border-inline-end: 1px solid var(--color-neutral-200);
     }
 
-    aside:first-of-type::before {
-        content: '';
-        position: absolute;
-        top: -100%;
-        left: -100%;
-        right: 0;
-        bottom: -100%;
-        background-color: var(--color-neutral-100);
+    aside:last-of-type {
+        padding-inline-start: 2.5vw;
+        border-inline-start: 1px solid var(--color-neutral-200);
     }
 
     div {
         display: grid;
-        grid-template-columns: auto 1fr auto;
+        grid-template-columns: minmax(20ch, auto) 1fr minmax(20ch, auto);
         column-gap: var(--gap-xl);
+    }
+
+    aside, article {
+        padding-top: var(--gap-lg);
     }
 </style>
