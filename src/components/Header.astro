@@ -1,13 +1,15 @@
 ---
 import { Icon } from "astro-icon";
+import ThemeToggle from "./ThemeToggle.astro";
 ---
 
-<header>
-    <div class="grid-layout">
+<header class="grid-layout">
+    <div>
         <a href="/">
             <Icon name="logo" size={40} />
             <span>strobook</span>
         </a>
+        <ThemeToggle />
     </div>
 </header>
 
@@ -21,6 +23,9 @@ import { Icon } from "astro-icon";
 
     div {
         padding: var(--gap-sm) 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 
     a {

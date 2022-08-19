@@ -15,7 +15,7 @@
 }
 
 /* dark theme via HTML dataset */
-:root[data-chisel-theme='dark'] {
+:root[data-theme='dark'] {
 	--color-primary: #002244;
 	--color-secondary: #3ea8f4;
 	--color-neutral-50: #111827;
@@ -37,7 +37,7 @@
 
 /* dark theme via native prefers-color-scheme */
 @media (prefers-color-scheme: dark) {
-	:root:not([data-chisel-theme]) {
+	:root:not([data-theme]) {
 		--color-primary: #002244;
 		--color-secondary: #3ea8f4;
 		--color-neutral-50: #111827;
@@ -52,7 +52,7 @@
 		--color-neutral-900: #f9fafb;
 	}
 
-	:root:not([data-chisel-theme]) select:focus {
+	:root:not([data-theme]) select:focus {
 		/* TODO: Find a way to use CSS variables for the down arrow */
 		background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 8" width="30"><path fill="%2386a8cb" d="M0,0l6,8l6-8"/></svg>');
 	}

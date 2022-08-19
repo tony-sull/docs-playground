@@ -1,0 +1,111 @@
+---
+import { Icon } from "astro-icon";
+---
+
+<script>
+    type Theme = 'light' | 'dark';
+
+    class ThemeToggle extends HTMLElement {
+        #labels: HTMLLabelElement[] = [];
+
+        connectedCallback() {
+            this.#labels = Array.from(this.querySelectorAll('label[data-theme]'));
+
+            const theme = localStorage.getItem('theme') as Theme | null;
+            if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                this.setTheme('dark');
+            } else {
+                this.setTheme('light');
+            }
+
+            this.addEventListener('change', this.onChange.bind(this));
+
+            this.onChange();
+        }
+
+        get theme() {
+            return document.documentElement.dataset.theme as Theme | null;
+        }
+
+        setTheme(theme: Theme) {
+            document.documentElement.dataset.theme = theme;
+            localStorage.setItem('theme', theme);
+        }
+
+        onChange(event?: Event) {
+            for (const label of this.#labels) {
+                const input = label.querySelector<HTMLInputElement>('input');
+                label.classList.toggle('checked', input!.checked);
+            }
+
+            if (event?.target instanceof HTMLInputElement) {
+                this.setTheme((event.target as HTMLInputElement).value as Theme);
+            }
+        }
+    }
+
+    window.customElements.define('theme-toggle', ThemeToggle);
+</script>
+
+<theme-toggle>
+    <label data-theme="light">
+        <Icon name="sun" size={20} />
+        <input
+            type="radio"
+            name="theme-toggle"
+            value="light"
+            title="Use light theme"
+            aria-label="Use light theme"
+        />
+    </label>
+    <label data-theme="dark">
+        <Icon name="moon" size={20} />
+        <input
+            type="radio"
+            name="theme-toggle"
+            value="dark"
+            title="Use dark theme"
+            aria-label="Use dark theme"
+        />
+    </label>
+</theme-toggle>
+
+<style>
+    theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25em;
+        padding: 0.33em 0.67em;
+        border-radius: 99em;
+        background-color: var(--color-neutral-100);
+    }
+
+    label:focus-within {
+        outline: 2px solid transparent;
+        box-shadow: 0 0 0 0.08em var(--theme-accent), 0 0 0 0.12em white;
+    }
+
+    label {
+        color: var(--color-neutral-600);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.5;
+    }
+
+    .checked {
+        color: var(--color-secondary);
+        opacity: 1;
+    }
+
+    input {
+        position: absolute;
+        opacity: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+    }
+</style>
